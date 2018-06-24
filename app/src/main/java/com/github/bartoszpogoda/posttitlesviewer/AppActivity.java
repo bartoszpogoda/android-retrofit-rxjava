@@ -3,11 +3,10 @@ package com.github.bartoszpogoda.posttitlesviewer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -49,47 +48,20 @@ public class AppActivity extends AppCompatActivity {
 
         sampleApiService = new SampleApiService();
 
-
+        // init UI controls
         initList();
         initBtn();
         initUsernameTextBox();
-        initSlider();
         initLoadingSpinner();
+        initSlider();
     }
 
-    private void initLoadingSpinner() {
-
-        spinner=(ProgressBar)findViewById(R.id.progressBar);
-        spinner.setVisibility(View.GONE);
-    }
-
-    private void initSlider() {
-        SeekBar minTitleLengthSeekBar = findViewById(R.id.titleMinLengthBar);
-        minTitleLengthValue = findViewById(R.id.minLengthBarValue);
-
-        minTitleLengthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                minTitleLengthValue.setText(Integer.toString(i));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // do nothing
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // do nothing
-            }
-        });
-    }
 
     private void initList() {
         postsListView = findViewById(R.id.postsListView);
 
-        arrayList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(AppActivity.this, android.R.layout.simple_list_item_1, arrayList);
+        arrayList = new ArrayList<>();
+        adapter = new ArrayAdapter<>(AppActivity.this, android.R.layout.simple_list_item_1, arrayList);
         postsListView.setAdapter(adapter);
     }
 
@@ -131,9 +103,15 @@ public class AppActivity extends AppCompatActivity {
     private void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void initLoadingSpinner() {
+
+        spinner = findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
     }
 
     private void initUsernameTextBox() {
@@ -156,6 +134,29 @@ public class AppActivity extends AppCompatActivity {
                 } else {
                     fetchPostTitlesBtn.setEnabled(false);
                 }
+            }
+        });
+    }
+
+
+    private void initSlider() {
+        SeekBar minTitleLengthSeekBar = findViewById(R.id.titleMinLengthBar);
+        minTitleLengthValue = findViewById(R.id.minLengthBarValue);
+
+        minTitleLengthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                minTitleLengthValue.setText(Integer.toString(i));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // do nothing
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // do nothing
             }
         });
     }
